@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="main" name="RollbariCFC">
+
+  <property name="mxunit.jar" value="./lib/mxunit-ant.jar" />
+  <property name="junit.out.dir.xml" value="testresults" />
+  <property name="junit.out.dir.html" value="testresults/html" />
+  <property name="output.dir" value="tmp" />
+  <property name="style.dir" value="./testresults/xsl/" />
+
+  <taskdef classname="org.mxunit.ant.MXUnitAntTask" name="mxunittask" classpath="${mxunit.jar}"/>
+
+  <target name="main" depends="browse" description="Triggers tests and outputs HTML result which is opened in the default handler for HTML on your computer (typically a browser)." />
+
+  <target name="runtests" description="Runs the tests">
+
+    <mkdir dir="${junit.out.dir.html}" />
+    <mkdir dir="${output.dir}" />
+
+    <mxunittask server="localhost" port="80" 
+      defaultrunner="/mxunit/runner/HttpAntRunner.cfc"
+      outputdir="${output.dir}"
+      authmethod="basic"
+      username="foo"
+      password="bar"
+      verbose="true">
+
+      <!--<testcase name="mxunit.tests.framework.AssertTest" packageName="mxunit.asserttests" />
+      <testcase name="mxunit.tests.framework.AssertDecoratorTest" packageName="mxunit.assertdecoratortests" />-->
+
+      <directory runner="/mxunit/runner/HttpAntRunner.cfc"
+        remoteMethod="run"
+        path="/rollbarcfc/tests"
+        packageName="components.Rollbar"
+        recurse="false"
+        componentPath="rollbarcfc.tests"
+        excludes="none" />
+
+    </mxunittask>
+
+  </target>
+
+  <target name="junitreport" depends="runtests" description="Create a report for the rest result">
+    <mkdir dir="${junit.out.dir.html}"/>
+    <junitreport todir="${junit.out.dir.html}">
+      <fileset dir="${output.dir}">
+        <include name="*.xml"/>
+      </fileset>
+      <report format="frames" todir="${junit.out.dir.html}" styledir="${style.dir}"/>
+    </junitreport>
+    <delete dir="${output.dir}" />
+  </target>
+
+  <target name="browse" depends="junitreport">
+    <exec executable="open">
+      <arg value="./testresults/html/index.html"/>
+    </exec>
+  </target>
+
+</project>
