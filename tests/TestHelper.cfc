@@ -8,7 +8,7 @@ component extends="mxunit.framework.TestCase"
 
 	public void function setUp()
 	{	
-    this.access_token = "b8a6c72430414a8e910bfe9c1b28d5f1";
+    this.access_token = "your-post-server-item-token";
 	}
 
 	public void function tearDown()
