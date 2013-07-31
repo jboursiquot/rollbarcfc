@@ -7,6 +7,8 @@ component output="false"
       sendPreparedPayload(arguments.event.data);
     }catch(any e){
       toConsole(e.message);
+      if (isUnparsablePayloadResponse(e))
+        toConsole(arguments.event.data['payload']);
     }
   }
 
@@ -19,8 +21,14 @@ component output="false"
     local.response = local.http.send();
 
     if (local.response.getPrefix().statusCode != "200 OK"){
-      throw(type="RollbarApiException", message = "Unsuccessful: #local.response.getPrefix().statusCode#");
+      throw(type="RollbarApiException",
+            message = "Unsuccessful: #local.response.getPrefix().statusCode# | #local.response.getPrefix().fileContent.toString()#");
     }
+  }
+
+  private boolean function isUnparsablePayloadResponse(required any exception)
+  {
+    return FindNoCase("could not parse payload", arguments.exception.message);
   }
 
   private void function toConsole(args = "", local = "", exception = "")
