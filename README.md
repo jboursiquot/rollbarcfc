@@ -35,9 +35,11 @@ rollbar.reportMessage("Debug Message", "debug", {"metadata" = "anything"});
 // The second parameter is the level (e.g. info, debug, warning, error, critical). Defaults to info.
 rollbar.reportMessage("Error Message", "error");
 
-// You can pass in some info on the user making the request
+// You can pass in some info on the user making the request. 
+// The "id" is required. Keep it consistent per user and Rollbar will give you a history of events per user. 
+// ID can be any string (up to 40 characters), so you can use the username as the id as well.
 user = {
-  "id" = CreateUUID(), // id required and must be unique
+  "id" = "12345",
   "username" = "a.user", 
   "email" = "a.user@domain.com"
 };
