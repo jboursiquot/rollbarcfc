@@ -189,6 +189,9 @@ component output="false"
       "body" = local.reqData.content,
       "user_ip" = cgi.remote_addr
     };
+    // The following helps avoid JSON serialization issues by ColdFusion when the body is empty
+    if (!Len(local.result['body'])) local.result['body'] = "";
+
     return local.result;
   }
 
