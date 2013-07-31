@@ -14,7 +14,6 @@ component output="false"
       setAPIEndpoint(arguments.conf);
       setEnvironment(arguments.conf);
     }catch(any e){
-      toConsole(arguments, {}, e);
       rethrow;
     }
     return this;
@@ -31,7 +30,6 @@ component output="false"
       sendPayload(local.payload);
       return true;
     }catch(any e){
-      toConsole(arguments, local, e);
       return false;
     }
   }
@@ -46,7 +44,6 @@ component output="false"
       sendPayload(local.payload);
       return true;
     }catch(any e){
-      toConsole(arguments, local, e);
       return false;
     }
   }
@@ -84,7 +81,7 @@ component output="false"
     local.response = local.http.send();
 
     if (local.response.getPrefix().statusCode != "200 OK"){
-      throw(type="RollbarApiException", message = "Unsuccessful: #local.response.getPrefix().statusCode#");
+      throw(type="RollbarApiException", message = "Unsuccessful: #local.response.getPrefix().statusCode# | #local.response.getPrefix().fileContent.toString()#");
     }
   }
 
