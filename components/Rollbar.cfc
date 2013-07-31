@@ -5,7 +5,6 @@ component output="false"
   variables.api_endpoint_ssl = "https://api.rollbar.com/api/1/item/";
   variables.api_endpoint = "http://api.rollbar.com/api/1/item/";
   variables.environment = "development";
-  variables.async = false;
 
 	public Rollbar function init(required struct conf)
   {
@@ -14,7 +13,6 @@ component output="false"
       setAccessToken(arguments.conf);
       setAPIEndpoint(arguments.conf);
       setEnvironment(arguments.conf);
-      setAsync(arguments.conf);
     }catch(any e){
       toConsole(arguments, {}, e);
       rethrow;
@@ -255,7 +253,6 @@ component output="false"
 
   private string function getAccessToken(){return variables.access_token;}
   private string function getEnvironment(){return variables.environment;}
-  private string function getAsync(){return variables.async;}
 
   private string function preparePayloadForTransmission(required struct payload)
   {
@@ -287,12 +284,6 @@ component output="false"
   {
     if (StructKeyExists(arguments.conf, 'environment'))
       variables.environment = arguments.conf['environment'];
-  }
-
-  private void function setAsync(required struct conf)
-  {
-    if (StructKeyExists(arguments.conf, 'async') && IsBoolean(arguments.conf['async']))
-      variables.async = arguments.conf['async'];
   }
 
   private void function toConsole(args = "", local = "", exception = "")
