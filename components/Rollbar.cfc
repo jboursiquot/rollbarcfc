@@ -199,6 +199,7 @@ component output="false"
   {
     return {
       "coldfusion" = server.coldfusion,
+      "root" = "/",
       "os" = server.os
     };
   }
