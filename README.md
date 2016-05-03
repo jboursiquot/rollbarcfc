@@ -19,7 +19,7 @@ Rollbar allows you to track both messages and exceptions. The following examples
 // Initialization requires a struct with access_token at the minimum
 conf = {
   "access_token" = "super_secret", // your post_server_item token
-  "environment" = "staging" // defaults to "development"
+  "environment" = "staging", // defaults to "development"
   "use_ssl" = "false" // defaults to true, recommended
 };
   
@@ -67,7 +67,7 @@ try{
 // Initialization requires a struct with access_token at the minimum
 conf = {
   "access_token" = "super_secret", // your post_server_item token
-  "environment" = "staging" // defaults to "development"
+  "environment" = "staging", // defaults to "development"
   "use_ssl" = "false" // defaults to true, recommended
 };
   
@@ -92,7 +92,7 @@ SendGatewayMessage("Rollbar", data);
 // Initialization requires a struct with access_token at the minimum
 conf = {
   "access_token" = "super_secret", // your post_server_item token
-  "environment" = "staging" // defaults to "development"
+  "environment" = "staging", // defaults to "development"
   "use_ssl" = "false" // defaults to true, recommended
 };
   
