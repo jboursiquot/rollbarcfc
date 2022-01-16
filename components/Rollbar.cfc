@@ -189,6 +189,11 @@ component output="false"
       "body" = local.reqData.content,
       "user_ip" = cgi.remote_addr
     };
+
+    if (structKeyExists(local.reqData.headers, "x-forwarded-for")) {
+      local.result["user_ip"] = structFind( local.reqData.headers, "x-forwarded-for", "one" );
+    }
+
     // The following helps avoid JSON serialization issues by ColdFusion when the body is empty
     if (!Len(local.result['body'])) local.result['body'] = "";
 
@@ -216,9 +221,15 @@ component output="false"
 
   private struct function getUserParamsForPayload(struct user = StructNew())
   {
+    local.reqData = GetHttpRequestData();
+    if (structKeyExists(local.reqData.headers, "x-forwarded-for")) {
+      local.remote_host = structFind( local.reqData.headers, "x-forwarded-for", "one" );
+    } else {
+      local.remote_host = cgi.remote_host;
+    }
     if (!StructKeyExists(arguments.user, "id")) arguments.user["id"] = CreateUUID();
-    if (!StructKeyExists(arguments.user, "username")) arguments.user["username"] = "anonymous@" & cgi.remote_host;
-    if (!StructKeyExists(arguments.user, "email")) arguments.user["email"] = "anonymous@" & cgi.remote_host;
+    if (!StructKeyExists(arguments.user, "username")) arguments.user["username"] = "anonymous@" & local.remote_host;
+    if (!StructKeyExists(arguments.user, "email")) arguments.user["email"] = "anonymous@" & local.remote_host;
     return arguments.user;
   }
 
